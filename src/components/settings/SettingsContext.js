@@ -4,7 +4,6 @@ import { useMemo, useState, useEffect, useContext, useCallback, createContext } 
 import localStorageAvailable from '../../utils/localStorageAvailable';
 //
 import { defaultSettings } from './config-setting';
-import { defaultPreset, getPresets, presetsOption } from './presets';
 
 // ----------------------------------------------------------------------
 
@@ -23,10 +22,6 @@ const initialState = {
   // Contrast
   onToggleContrast: () => {},
   onChangeContrast: () => {},
-  // Color
-  onChangeColorPresets: () => {},
-  presetsColor: defaultPreset,
-  presetsOption: [],
   // Stretch
   onToggleStretch: () => {},
   // Reset
@@ -57,7 +52,6 @@ export function SettingsProvider({ children }) {
   const [themeStretch, setThemeStretch] = useState(defaultSettings.themeStretch);
   const [themeContrast, setThemeContrast] = useState(defaultSettings.themeContrast);
   const [themeDirection, setThemeDirection] = useState(defaultSettings.themeDirection);
-  const [themeColorPresets, setThemeColorPresets] = useState(defaultSettings.themeColorPresets);
 
   const storageAvailable = localStorageAvailable();
 
@@ -79,14 +73,12 @@ export function SettingsProvider({ children }) {
       const stretch = getCookie('themeStretch') || defaultSettings.themeStretch;
       const contrast = getCookie('themeContrast') || defaultSettings.themeContrast;
       const direction = getCookie('themeDirection') || defaultSettings.themeDirection;
-      const colorPresets = getCookie('themeColorPresets') || defaultSettings.themeColorPresets;
 
       setThemeMode(mode);
       setThemeLayout(layout);
       setThemeStretch(stretch);
       setThemeContrast(contrast);
       setThemeDirection(direction);
-      setThemeColorPresets(colorPresets);
     }
   }, [storageAvailable]);
 
@@ -149,13 +141,6 @@ export function SettingsProvider({ children }) {
     setCookie('themeContrast', value);
   }, []);
 
-  // Color
-  const onChangeColorPresets = useCallback((event) => {
-    const { value } = event.target;
-    setThemeColorPresets(value);
-    setCookie('themeColorPresets', value);
-  }, []);
-
   // Stretch
   const onToggleStretch = useCallback(() => {
     const value = !themeStretch;
@@ -170,13 +155,11 @@ export function SettingsProvider({ children }) {
     setThemeStretch(defaultSettings.themeStretch);
     setThemeContrast(defaultSettings.themeContrast);
     setThemeDirection(defaultSettings.themeDirection);
-    setThemeColorPresets(defaultSettings.themeColorPresets);
     removeCookie('themeMode');
     removeCookie('themeLayout');
     removeCookie('themeStretch');
     removeCookie('themeContrast');
     removeCookie('themeDirection');
-    removeCookie('themeColorPresets');
   }, []);
 
   const memoizedValue = useMemo(
@@ -201,11 +184,6 @@ export function SettingsProvider({ children }) {
       // Stretch
       themeStretch,
       onToggleStretch,
-      // Color
-      themeColorPresets,
-      onChangeColorPresets,
-      presetsOption,
-      presetsColor: getPresets(themeColorPresets),
       // Reset
       onResetSetting,
     }),
@@ -214,9 +192,6 @@ export function SettingsProvider({ children }) {
       themeMode,
       onChangeMode,
       onToggleMode,
-      // Color
-      themeColorPresets,
-      onChangeColorPresets,
       onChangeContrast,
       // Direction
       themeDirection,

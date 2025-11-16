@@ -21,7 +21,6 @@ import StretchOptions from './StretchOptions';
 import ContrastOptions from './ContrastOptions';
 import DirectionOptions from './DirectionOptions';
 import FullScreenOptions from './FullScreenOptions';
-import ColorPresetsOptions from './ColorPresetsOptions';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +33,6 @@ export default function SettingsDrawer() {
     themeStretch,
     themeContrast,
     themeDirection,
-    themeColorPresets,
     onResetSetting,
   } = useSettingsContext();
 
@@ -55,8 +53,7 @@ export default function SettingsDrawer() {
     themeLayout !== defaultSettings.themeLayout ||
     themeStretch !== defaultSettings.themeStretch ||
     themeContrast !== defaultSettings.themeContrast ||
-    themeDirection !== defaultSettings.themeDirection ||
-    themeColorPresets !== defaultSettings.themeColorPresets;
+    themeDirection !== defaultSettings.themeDirection;
 
   return (
     <>
@@ -123,10 +120,6 @@ export default function SettingsDrawer() {
 
           <Block title="Stretch" tooltip="Only available at large resolutions > 1600px (xl)">
             <StretchOptions />
-          </Block>
-
-          <Block title="Presets">
-            <ColorPresetsOptions />
           </Block>
         </Scrollbar>
 
